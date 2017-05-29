@@ -59,7 +59,7 @@ open class JExpandableTableViewHV: UITableViewHeaderFooterView {
     }
 }
 
-public protocol JExpandableTableViewDataSource : NSObjectProtocol {
+open protocol JExpandableTableViewDataSource : NSObjectProtocol {
     
     func tableView(_ tableView: JExpandableTableView, numberOfRowsInSection section: Int, callback : @escaping (_ noOfRows: Int)->Void) -> Void
     
@@ -71,14 +71,14 @@ public protocol JExpandableTableViewDataSource : NSObjectProtocol {
 }
 
 //Extended just to make it optional in JExpandableTableViewDataSource protocol
-public extension JExpandableTableViewDataSource{
+open extension JExpandableTableViewDataSource{
     
     func tableView(_ tableView: JExpandableTableView, initialNumberOfRowsInSection section: Int) -> Int{
         return 0
     }
 }
 
-public protocol JExpandableTableViewDelegate : NSObjectProtocol {
+open protocol JExpandableTableViewDelegate : NSObjectProtocol {
     
     func tableView(_ tableView: JExpandableTableView, viewForHeaderInSection section: Int) -> UIView? // custom view for header. will be adjusted to default or specified header height
     
@@ -96,7 +96,7 @@ public protocol JExpandableTableViewDelegate : NSObjectProtocol {
 }
 
 //Extended just to make it optional in JExpandableTableViewDataSource protocol
-public extension JExpandableTableViewDelegate{
+open extension JExpandableTableViewDelegate{
     
     func tableView(_ tableView: JExpandableTableView, heightForHeaderInSection section: Int) -> CGFloat{
         return 44
@@ -124,10 +124,10 @@ public extension JExpandableTableViewDelegate{
 }
 
 @IBDesignable
-public class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDelegate, JTableHeaderViewDelegate{
+open class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDelegate, JTableHeaderViewDelegate{
     
     //config
-    public var keepPreviousCellExpanded: Bool = false
+    open var keepPreviousCellExpanded: Bool = false
     
     var tableview: UITableView!
     var lastSectionInfo: SectionInfo!
@@ -286,21 +286,21 @@ public class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDe
         return headerView
     }
     
-    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return (self.delegate?.tableView(self, heightForHeaderInSection: section))!
     }
     
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         return (self.delegate?.tableView(self, heightForRowAtIndexPath: indexPath))!
     }
     
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return (self.delegate?.tableView(self, estimatedHeightForRowAt: indexPath))!
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         self.delegate?.tableView(self, didSelectRowAt: indexPath)
     }
