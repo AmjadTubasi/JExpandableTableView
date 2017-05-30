@@ -59,7 +59,7 @@ open class JExpandableTableViewHV: UITableViewHeaderFooterView {
     }
 }
 
-open protocol JExpandableTableViewDataSource : NSObjectProtocol {
+public protocol JExpandableTableViewDataSource : NSObjectProtocol {
     
     func tableView(_ tableView: JExpandableTableView, numberOfRowsInSection section: Int, callback : @escaping (_ noOfRows: Int)->Void) -> Void
     
@@ -71,14 +71,14 @@ open protocol JExpandableTableViewDataSource : NSObjectProtocol {
 }
 
 //Extended just to make it optional in JExpandableTableViewDataSource protocol
-open extension JExpandableTableViewDataSource{
+public extension JExpandableTableViewDataSource{
     
     func tableView(_ tableView: JExpandableTableView, initialNumberOfRowsInSection section: Int) -> Int{
         return 0
     }
 }
 
-open protocol JExpandableTableViewDelegate : NSObjectProtocol {
+public protocol JExpandableTableViewDelegate : NSObjectProtocol {
     
     func tableView(_ tableView: JExpandableTableView, viewForHeaderInSection section: Int) -> UIView? // custom view for header. will be adjusted to default or specified header height
     
@@ -96,7 +96,7 @@ open protocol JExpandableTableViewDelegate : NSObjectProtocol {
 }
 
 //Extended just to make it optional in JExpandableTableViewDataSource protocol
-open extension JExpandableTableViewDelegate{
+public extension JExpandableTableViewDelegate{
     
     func tableView(_ tableView: JExpandableTableView, heightForHeaderInSection section: Int) -> CGFloat{
         return 44
@@ -172,7 +172,7 @@ open class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDele
     open func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation){
         self.tableview.reloadRows(at: indexPaths, with: animation)
     }
-
+    
     @IBInspectable public var disableCellSeparator:Bool  = false{
         
         didSet{
@@ -185,7 +185,7 @@ open class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDele
         }
     }
     
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         if disableCellSeparator {
             tableview.separatorStyle = .none
@@ -193,7 +193,7 @@ open class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDele
             tableview.separatorStyle = .singleLine
         }
     }
-
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         xibSetup()
@@ -218,7 +218,7 @@ open class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDele
         #else
             // this code will execute only in IB
         #endif
-
+        
         addSubview(tableview!)
         
         self.addConstraints([
@@ -248,6 +248,9 @@ open class JExpandableTableView: UIView , UITableViewDataSource, UITableViewDele
     }
     
     public func numberOfSections(in tableView: UITableView) -> Int {
+        guard let dataSource = self.dataSource else {
+            return 0
+        }
         
         let sections = self.dataSource!.numberOfSections(in : self);
         if sectionInfoArray.count == 0  {
